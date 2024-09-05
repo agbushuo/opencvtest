@@ -1,13 +1,14 @@
 import numpy as np
 import cv2 as cv
-from matplotlib import pyplot as plt
-import matplotlib
+import matplotlib.pyplot as plt
 
-matplotlib.rcParams['font.asns-serif'] = ['SimHei']
-matplotlib.rcParams['axes.unicode_minus'] = False
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+
 cap = cv.VideoCapture(2)
 plt.ion()
 fig,(ax1,ax2) = plt.subplots(1,2,figsize=(12,6))
+exit_flag=False
 while(1):
     ret,img=cap.read()
     if not ret:
@@ -23,12 +24,14 @@ while(1):
         histr = cv.calcHist([img],[i],None,[256],[0,256])
         ax2.plot(histr,color=col)
     ax2.set_xlim([0,256])
-    ax2.set_title('直方图')
+    ax2.set_title('色彩直方图')
     plt.pause(0.01)
-
     if cv.waitKey(5) & 0xff==27:
-        plt.close()
+        exit_flag = True
         break
-cap.release()
-cv.destroyAllWindows()
-plt.ioff()
+    if exit_flag:
+        plt.close()  # 关闭 matplotlib 窗口
+        cap.release()  # 释放摄像头
+        cv.destroyAllWindows()  # 关闭 OpenCV 窗口
+        plt.ioff()  # 关闭 matplotlib 的交互模式
+
