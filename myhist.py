@@ -26,7 +26,7 @@ while(1):
     ax2.set_xlim([0,256])
     ax2.set_title('色彩直方图')
     plt.pause(0.01)
-    if cv.waitKey(5) & 0xff==27:
+    if cv.waitKey(5) & 0xFF==27:
         exit_flag = True
         break
     if exit_flag:
